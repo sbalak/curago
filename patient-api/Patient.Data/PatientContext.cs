@@ -5,11 +5,16 @@ namespace Patient.Data
     public class PatientContext : DbContext
     {
         public PatientContext (DbContextOptions<PatientContext> options) : base(options) 
-        { 
+        {
         }
 
+        public DbSet<Availability> Availabilities { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Staff> Staffs { get; set; }
+        public DbSet<StaffSpeciality> StaffSpecialities { get; set; }
+        public DbSet<StaffSymptom> StaffSymptoms { get; set; }
+        public DbSet<Speciality> Specialities { get; set; }
+        public DbSet<Symptom> Symptoms { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
