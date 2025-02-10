@@ -3,6 +3,8 @@
     public class Staff
     {
         public int Id { get; set; }
+        public int PrimarySpecialityId { get; set; }
+        public int? SecondarySpecialityId { get; set; }
         public string? Email { get; set; }
         public string? Phone { get; set; }
         public string? FirstName { get; set; }
@@ -13,6 +15,9 @@
         public DateTime? RefreshTokenExpiry { get; set; }
         public string? Otp { get; set; }
         public DateTime? OtpExpiry { get; set; }
+
+        public Speciality PrimarySpeciality { get; set; }
+        public Speciality? SecondarySpeciality { get; set; }
     }
 
     public class Availability
@@ -25,23 +30,5 @@
         public TimeOnly End { get; set; }
         public bool IsAvailable { get; set; }
         public Staff Staff { get; set; }
-    }
-
-    public class StaffSpeciality
-    {
-        public int Id { get; set; }
-        public int StaffId { get; set; }
-        public int SpecialityId { get; set; }
-        public Staff Staff { get; set; }
-        public Speciality Speciality { get; set; }
-    }
-
-    public class StaffSymptom
-    {
-        public int Id { get; set; }
-        public int StaffId { get; set; }
-        public int SymptomId { get; set; }
-        public Staff Staff { get; set; }
-        public Symptom Symptom { get; set; }
     }
 }

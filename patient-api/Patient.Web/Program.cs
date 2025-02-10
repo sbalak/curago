@@ -60,7 +60,10 @@ builder.Services.AddSwaggerGen(opt =>
     });
 });
 
+builder.Services.AddTransient<IAppointmentService, AppointmentService>();
 builder.Services.AddTransient<IAuthService, AuthService>();
+builder.Services.AddTransient<IReferenceService, ReferenceService>();
+builder.Services.AddTransient<IStaffService, StaffService>();
 builder.Services.AddTransient<IUserService, UserService>();
 
 builder.Services.AddSingleton<RegexValidator>();

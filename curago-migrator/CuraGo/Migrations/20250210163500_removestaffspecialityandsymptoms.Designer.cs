@@ -4,6 +4,7 @@ using CuraGo.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CuraGo.Migrations
 {
     [DbContext(typeof(CuraGoContext))]
-    partial class CuraGoContextModelSnapshot : ModelSnapshot
+    [Migration("20250210163500_removestaffspecialityandsymptoms")]
+    partial class removestaffspecialityandsymptoms
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,10 +67,6 @@ namespace CuraGo.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CorrespondingRole")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -120,23 +119,13 @@ namespace CuraGo.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PrimarySpecialityId")
-                        .HasColumnType("int");
-
                     b.Property<string>("RefreshToken")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("RefreshTokenExpiry")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("SecondarySpecialityId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("PrimarySpecialityId");
-
-                    b.HasIndex("SecondarySpecialityId");
 
                     b.ToTable("Staffs");
                 });
@@ -220,23 +209,6 @@ namespace CuraGo.Migrations
                         .IsRequired();
 
                     b.Navigation("Staff");
-                });
-
-            modelBuilder.Entity("CuraGo.Models.Staff", b =>
-                {
-                    b.HasOne("CuraGo.Models.Speciality", "PrimarySpeciality")
-                        .WithMany()
-                        .HasForeignKey("PrimarySpecialityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CuraGo.Models.Speciality", "SecondarySpeciality")
-                        .WithMany()
-                        .HasForeignKey("SecondarySpecialityId");
-
-                    b.Navigation("PrimarySpeciality");
-
-                    b.Navigation("SecondarySpeciality");
                 });
 #pragma warning restore 612, 618
         }
