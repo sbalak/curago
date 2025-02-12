@@ -19,6 +19,7 @@ namespace Patient.Infrastructure
                                                 {
                                                     Id = m.Id,
                                                     Name = m.Name,
+                                                    CorrespondingRole = m.CorrespondingRole,
                                                     Image = m.Image,
                                                     Description = m.Description
                                                 })

@@ -90,15 +90,6 @@ namespace Patient.Infrastructure
 
         #endregion
 
-        /// <summary>
-        /// Gets the staff based on id and 13.089596464270011, 80.19450142903824
-        /// </summary>
-        /// <param name="staffId">2</param>
-        /// <param name="latitude">13.089596464270011</param>
-        /// <param name="longitude">80.19450142903824</param>
-        /// <returns>A staff based on id and proximity from the coordinates passed in as parameter</returns>
-        /// <response code="200">Returns 200 and the share price</response>
-        /// <response code="400">Returns 400 if the query is invalid</response>
         public async Task<StaffModel> GetStaff(int staffId, double latitude, double longitude)
         {
             var staff = _context.Database.SqlQuery<StaffModel>($"EXEC [dbo].[GetStaff] @staff={staffId}, @latpoint={latitude}, @longpoint = {longitude};").AsEnumerable().FirstOrDefault();

@@ -7,8 +7,11 @@
         public int? SecondarySpecialityId { get; set; }
         public string? Email { get; set; }
         public string? Phone { get; set; }
+        public string? Image { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
+        public decimal Fee { get; set; }
+        public int Experience { get; set; }
         public double? Latitude { get; set; }
         public double? Longitude { get; set; }
         public string? RefreshToken { get; set; }
