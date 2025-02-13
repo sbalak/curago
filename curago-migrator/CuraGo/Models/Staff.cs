@@ -22,16 +22,4 @@
         public Speciality PrimarySpeciality { get; set; }
         public Speciality? SecondarySpeciality { get; set; }
     }
-
-    public class Availability
-    {
-        public int Id { get; set; }
-        public int StaffId { get; set; }
-        public string Day { get; set; }
-        public string Slot { get; set; }
-        public TimeOnly Start { get; set; }
-        public TimeOnly End { get; set; }
-        public bool IsAvailable { get; set; }
-        public Staff Staff { get; set; }
-    }
 }
