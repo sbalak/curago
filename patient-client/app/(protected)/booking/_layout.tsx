@@ -1,6 +1,5 @@
 import React from "react";
 import { Stack } from "expo-router";
-import DashboardHeader from "@/components/headers/DashboardHeader";
 
 export default function _layout() {
   return (
@@ -9,6 +8,7 @@ export default function _layout() {
         console.log("Header Title:", route.params?.headerTitle);
 
         return {
+          headerShown: false,
           headerTitle: route.params?.headerTitle ?? "Default Title",
           headerTitleStyle: {
             fontFamily: "outfit-bold",
@@ -17,10 +17,7 @@ export default function _layout() {
         };
       }}
     >
-      <Stack.Screen
-        name="index"
-        options={{ header: () => <DashboardHeader /> }}
-      />
+      <Stack.Screen name="index" />{" "}
     </Stack>
   );
 }

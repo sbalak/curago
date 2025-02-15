@@ -11,6 +11,7 @@ import {
 import React, { useState } from "react";
 import { common } from "@/constants/Styles";
 import { useNavigation } from "@react-navigation/native";
+import { router } from "expo-router";
 
 const specialties = ["Cardiology", "Dermatology", "Neurology", "Pediatrics"];
 const symptoms = ["Headache", "Skin Rash", "Chest Pain", "Fever"];
@@ -46,7 +47,18 @@ export default function dashboard() {
 
   const handleNext = () => {
     if (selectedSpecialty || selectedSymptoms.length > 0) {
-      navigation.navigate("Doctors", { selectedSpecialty, selectedSymptoms });
+      router.push({
+        pathname: "/doctor",
+        params: {
+          selectedSpecialty: selectedSpecialty,
+          selectedSymptoms: selectedSymptoms,
+        },
+      });
+
+      // navigation.navigate("doctor", {
+      //   selectedSpecialty,
+      //   selectedSymptoms,
+      // });
     }
   };
 
