@@ -1,6 +1,6 @@
 import React from "react";
 import { Stack } from "expo-router";
-import DashboardHeader from "@/components/headers/DashboardHeader";
+import DashboardHeader from "@/components/headers/MainHeader";
 
 export default function _layout() {
   return (
