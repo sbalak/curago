@@ -11,6 +11,8 @@ export default function _layout() {
           options={{ headerShown: false, headerTitle: "dashboard" }}
         />
         <Stack.Screen name="settings" options={{ headerShown: false }} />
+        <Stack.Screen name="doctor" options={{ headerShown: false }} />
+        <Stack.Screen name="booking" options={{ headerShown: false }} />
       </Stack>
     </LocationProvider>
   );
