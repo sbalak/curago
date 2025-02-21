@@ -24,10 +24,10 @@ const MainHeader = () => {
     <View style={[styles.container, { paddingTop: top }]}>
       <StatusBar barStyle={"light-content"} backgroundColor={Colors.Primary} />
       <TouchableOpacity onPress={() => {}}>
-        <Ionicons name="menu" size={24} color="black" />
+        <Ionicons name="menu" style={{paddingTop:10, color: Colors.Primary}} size={34} color="black" />
       </TouchableOpacity>
       <TouchableOpacity>
-        <Text style={common.heading}>CuraGo</Text>
+        <Text style={{fontFamily: common.defaultTitle, fontSize: 26, paddingTop:15, color: Colors.Primary}}>CuraGo</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.profileButton}

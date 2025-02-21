@@ -5,27 +5,26 @@ export const common = {
         flex: 1
     },
     container: {
-        paddingHorizontal: 10
+        paddingHorizontal: 10,
+        backgroundColor: '#E9F5DB'
     },
-    defaultHeading: {
-        fontFamily: 'playfair'
+
+    defaultTitle: 'outfit-medium',
+    title: {
+        fontFamily: 'outfit-medium',
+        fontSize:18,
     },
-    heading: {
-        fontFamily: 'playfair',
-        fontSize:20,
-    },
-    subHeading: {
-        fontFamily: 'playfair',
-        fontSize: 18
-    },
-    defaultTitle: {
-        fontFamily: 'open-sans'
-    },
+    
+    //subTitle: {
+    //    fontFamily: 'outfit-medium',
+    //    fontSize: 16
+    //},
+
+    defaultHeading: 'nunito-bold',
+    
+    defaultText: 'nunito-medium',
     text: {
-        fontFamily: 'spline-sans',
+        fontFamily: 'nunito-medium',
         color: Colors.LightGrey
     },
-    defaultText: {
-        fontFamily: 'spline-sans',
-    }
 }

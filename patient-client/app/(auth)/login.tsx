@@ -37,11 +37,11 @@ export const Login = () => {
       <Image style={{height:100,width:300}} source={require('@/assets/images/logo.jpeg')} />
       </View>
       <View style={signin.container}>
-        <Text style={[common.defaultHeading, signin.title]}>Your go to portal for all your health care needs</Text>
+        <Text style={signin.title}>Your go to portal for all your health care needs</Text>
         <View style={signin.subTitleContainer}>
           <View style={signin.subTitleDivider} />
           <View>
-            <Text style={[common.defaultTitle, signin.subTitleText]}>Log in or sign up</Text>
+            <Text style={signin.subTitleText}>Log in or sign up</Text>
           </View>
           <View style={signin.subTitleDivider} />
         </View>
@@ -85,7 +85,7 @@ export const Login = () => {
       <View style={logon.container}>
         <TouchableOpacity style={logon.button} onPress={handleLogin}>
           <Ionicons name="log-in-outline" size={24} color={Colors.White} /> 
-          <Text style={[common.defaultText, logon.buttonText]}>Continue with OTP</Text>
+          <Text style={[logon.buttonText]}>Continue with OTP</Text>
         </TouchableOpacity>
       </View>
       <View style={{ alignItems: 'center', paddingHorizontal: 10, paddingVertical: 10 }}>
@@ -118,7 +118,8 @@ const signin = StyleSheet.create({
     backgroundColor: Colors.White,
     padding: 10
   },
-  title: { 
+  title: {
+    fontFamily: common.defaultTitle, 
     fontSize: 24,
     textAlign: 'center', 
     marginVertical: 25,
@@ -131,6 +132,7 @@ const signin = StyleSheet.create({
   subTitleText: {
     width: 140, 
     textAlign: 'center', 
+    fontFamily: common.defaultTitle,
     color: Colors.LightGrey
   },
   subTitleDivider: {
@@ -188,6 +190,7 @@ const logon = StyleSheet.create({
     justifyContent: 'center'
   },
   buttonText: {
+    fontFamily: common.defaultText,
     color: Colors.White,
     fontSize: 18,
     marginLeft: 10

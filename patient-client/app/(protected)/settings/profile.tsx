@@ -56,7 +56,7 @@ export default function profile() {
         </View>
         <View style={styles.detailsContainer}>
           <View style={styles.inputSection}>
-            <Text style={[styles.textInputLabel, common.defaultHeading]}>First Name</Text>
+            <Text style={styles.textInputLabel}>First Name</Text>
             <View style={styles.textInput}>
             <TextInput 
                 style={[common.text, styles.textInputBox]} 
@@ -72,7 +72,7 @@ export default function profile() {
             </View>
           </View>
           <View style={styles.inputSection}>
-            <Text style={[styles.textInputLabel, common.defaultHeading]}>Last Name</Text>
+            <Text style={styles.textInputLabel}>Last Name</Text>
             <View style={styles.textInput}>
               <TextInput 
                 style={[common.text, styles.textInputBox]} 
@@ -88,7 +88,7 @@ export default function profile() {
             </View>
           </View>
           <View style={styles.inputSection}>
-            <Text style={[styles.textInputLabel, common.defaultHeading]}>Phone</Text>
+            <Text style={styles.textInputLabel}>Phone</Text>
             <View style={styles.textInput}>
               <TextInput style={[common.text, styles.textInputBox]} editable={false} value={user.phone} />
             </View>
@@ -97,7 +97,7 @@ export default function profile() {
         <View>  
           <TouchableOpacity style={styles.button} onPress={handleUpdate}>
             <Ionicons name="log-in-outline" size={24} color={Colors.Secondary} /> 
-            <Text style={[common.defaultText, styles.buttonText]}>Update Profile</Text>
+            <Text style={styles.buttonText}>Update Profile</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   textInputLabel: {
+    fontFamily: common.defaultTitle,
     width: "30%",
     fontSize: 16,
     borderColor: Colors.Secondary,
@@ -154,6 +155,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   buttonText: {
+    fontFamily: common.defaultText,
     color: Colors.Secondary,
     fontSize: 18,
     marginLeft: 10

@@ -6,19 +6,59 @@ import {
   Text,
   StyleSheet,
   FlatList,
+  Image,
 } from "react-native";
 
 import React, { useState } from "react";
 import { common } from "@/constants/Styles";
 import { useNavigation } from "@react-navigation/native";
-import { router } from "expo-router";
-
+import { router, useFocusEffect } from "expo-router";
+import axios from 'axios';
+import { FontAwesome6, Ionicons } from "@expo/vector-icons";
+import { useLocation } from "@/hooks/useLocation";
+import { useAuth } from "@/hooks/useAuth";
+import { Colors } from "@/constants/Colors";
+{/*
 const specialties = ["Cardiology", "Dermatology", "Neurology", "Pediatrics"];
 const symptoms = ["Headache", "Skin Rash", "Chest Pain", "Fever"];
-
+*/}
 export default function dashboard() {
-  const navigation = useNavigation();
-  const [selectedCategory, setSelectedCategory] = useState(null); // Track selected category (Symptoms or Specialty)
+  const { locationState } = useLocation();
+  const [specialities, setSpecialities] = useState([]);
+  const [symptoms, setSymptoms] = useState([]);
+  const [doctors, setDoctors] = useState([]);
+
+  const loadSpecialities = async() => {
+    try {
+      const response = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/reference/specialities`);
+      console.log(response.data);
+      setSpecialities(response.data);
+    }
+    catch(error) {
+    } 
+  }
+
+  const loadSymptoms = async() => {
+    try {
+      const response = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/reference/symptoms`);
+      setSymptoms(response.data);
+    }
+    catch(error) {
+    } 
+  }
+
+  const loadDoctors = async() => {
+    try {
+      if (locationState.latitude && locationState.longitude) {
+        const response = await axios.get(`${process.env.EXPO_PUBLIC_API_URL}/staff/list?latitude=${locationState.latitude}&longitude=${locationState.longitude}`);
+        setDoctors(response.data);
+      }
+    }
+    catch(error) {
+    } 
+  }
+
+{/*  const [selectedCategory, setSelectedCategory] = useState(null); // Track selected category (Symptoms or Specialty)
   const [selectedSpecialty, setSelectedSpecialty] = useState(null); // Track selected specialty (only one)
   const [selectedSymptoms, setSelectedSymptoms] = useState([]); // Track selected symptoms (multiple)
 
@@ -102,7 +142,7 @@ export default function dashboard() {
       </View>
     );
   };
-
+}
   const renderItems = () => {
     const data = selectedCategory === "Specialties" ? specialties : symptoms;
 
@@ -134,34 +174,102 @@ export default function dashboard() {
         )}
       />
     );
-  };
+  };*/}
+
+  
+  useFocusEffect(
+    React.useCallback(() => {
+      loadDoctors();
+      loadSpecialities();
+      loadSymptoms();
+    }, [locationState.latitude, locationState.longitude])
+  );
 
   return (
     <SafeAreaView style={common.safeArea}>
       <ScrollView style={common.container}>
-        <View style={styles.container}>
-          <Text style={styles.title}>Choose Symptoms or Specialty</Text>
+        
+        <View style={{backgroundColor: Colors.Primary, borderRadius:5, padding:10, marginTop: 10}}>
+          <Text style={[common.title, {color: Colors.White}]}>Welcome,</Text>
+          <Text style={[common.text, {color: Colors.White}]}>Sidharth Balakrishnan</Text>
+          
+          <Text style={[common.text, {color: Colors.White, paddingTop:20}]}>Your have an upcoming appointment at,</Text>
+          <Text style={[common.text, {color: Colors.White}]}>09:00 on 16 July 2024</Text>
+          
+          <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'flex-end'}} onPress={() => (router.navigate('/doctor'))}>
+            <Text style={styles.viewBookings}>view bookings</Text>
+            <Ionicons name="arrow-forward-outline" size={24} color={Colors.White} />
+          </TouchableOpacity>
 
-          {!selectedCategory ? (
-            renderCategoryButtons() // Show category buttons if no category is selected
-          ) : (
-            <>
-              <Text style={styles.subtitle}>Select a {selectedCategory}</Text>
-              {renderItems()}{" "}
-              {/* Show the list of items (specialties or symptoms) based on selection */}
-            </>
-          )}
-          <TouchableOpacity
-            style={[
-              styles.nextButton,
-              selectedSpecialty || selectedSymptoms.length > 0
-                ? {}
-                : styles.disabledButton,
-            ]}
-            onPress={handleNext}
-            disabled={!selectedSpecialty && selectedSymptoms.length === 0}
-          >
-            <Text style={styles.nextButtonText}>Next</Text>
+        </View>
+
+        <View>
+          <View style={styles.titleContainer}>
+            <Ionicons name="medical" size={24} color="#FFB300" />
+            <Text style={common.title}>What's your Symptom?</Text>
+          </View>
+          <FlatList data={symptoms} 
+            horizontal={true} 
+            showsHorizontalScrollIndicator={false} 
+            renderItem={({item, index})=>(
+              <TouchableOpacity style={{borderRadius: 15, backgroundColor: Colors.White, padding: 10, marginRight: 5}}>
+                <Text style={{fontFamily: common.defaultText}}>{item.name}</Text>
+              </TouchableOpacity>
+            )}
+            keyExtractor={(item, index) => String(index)}
+          />
+        </View>
+        
+        <View style={{paddingTop:10}}>
+          <View style={styles.titleContainer}>
+            <FontAwesome6 name="user-doctor" size={24} color={Colors.Primary} />
+            <Text style={common.title}>Choose Speciality</Text>
+          </View>
+          <FlatList data={specialities} 
+            horizontal={true} 
+            showsHorizontalScrollIndicator={false} 
+            renderItem={({item, index})=>(
+              <TouchableOpacity style={{borderRadius: 15, backgroundColor: Colors.White, padding: 10, width:100, marginRight: 5}}>
+                <View style={{alignItems: 'center'}}><Image style={{height:50, width: 50}} source={{uri:item.image}} /></View>
+                <Text style={{textAlign: 'center', marginTop:10, fontFamily: common.defaultText, fontSize: 12}}>{item.name}</Text>
+              </TouchableOpacity>
+            )}
+            keyExtractor={(item, index) => String(index)}
+          />
+        </View>
+        
+        <View style={{paddingTop:10}}>
+          <View style={[styles.titleContainer, {justifyContent: 'space-between'}]}>
+            <View style={{flexDirection: 'row', gap: 5}}>
+              <FontAwesome6 name="map-location-dot" size={24} color={Colors.Primary} />
+              <Text style={common.title}>Nearby Doctors</Text>
+            </View>
+            <TouchableOpacity style={{flexDirection: 'row'}} onPress={() => (router.navigate('/doctor'))}>
+              <Text style={styles.viewAll}>more</Text>
+              <Ionicons name="arrow-forward-outline" size={24} color={Colors.Primary} />
+            </TouchableOpacity>
+          </View>
+          <FlatList data={doctors} 
+            scrollEnabled={false} 
+            renderItem={({item, index})=>(
+              <TouchableOpacity style={styles.doctorContainer} onPress={() => router.push('/doctor')}>
+                <Image source={{uri:item.image}} style={styles.doctorImage} />
+                <View style={styles.doctorInfo}>
+                    <Text style={{fontFamily: common.defaultText}}>Dr {item.firstName} {item.lastName}</Text>
+                    <Text style={common.text}>{item.speciality} • {item.role}</Text>
+                    <Text style={common.text}>{item.experience} years experience • ~{item.distance} kms</Text>
+                    <Text style={common.text}>Charges ₹ {item.fee}</Text>
+                    <View style={{flexDirection: 'row', paddingTop: 10}}>
+                      <FontAwesome6 name="calendar-check" size={16} color={Colors.LightGrey} style={{paddingTop: 1, paddingRight: 5}} />
+                      <Text style={{fontFamily: common.defaultHeading, color: Colors.LightGrey}}>Available at 09:00 today</Text>
+                    </View>
+                </View>
+              </TouchableOpacity>
+            )}
+            keyExtractor={(item, index) => String(index)} 
+          />
+          <TouchableOpacity>
+            <Text style={styles.footer}>view more</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -169,6 +277,46 @@ export default function dashboard() {
   );
 }
 
+const styles = StyleSheet.create({
+  titleContainer: {
+    marginVertical: 10,
+    display: 'flex',
+    flexDirection: 'row', gap: 5
+  },
+  doctorContainer: {
+      backgroundColor: Colors.White,
+      marginBottom: 10,
+      padding: 10,
+      borderRadius: 15,
+      flexDirection: 'row',
+  },
+  doctorImage: {
+      width: 125,
+      height: 125,
+      borderRadius:99
+  },
+  doctorInfo: {
+      marginTop: 7,
+      marginLeft: 10,
+      width:240,
+  },
+  viewBookings: {
+    fontFamily: common.defaultHeading,
+    color: Colors.White, 
+  },
+  viewAll: {
+    fontFamily: common.defaultHeading,
+    color: Colors.Primary, 
+  },
+  footer: {
+    fontFamily: common.defaultHeading,
+    color: Colors.Primary, 
+    textAlign: "center",
+    marginBottom:20
+  }
+});
+
+/*
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -262,3 +410,4 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
 });
+*/
