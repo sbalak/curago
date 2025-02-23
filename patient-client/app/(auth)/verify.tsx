@@ -39,10 +39,10 @@ const verify = () => {
 
   const renderTime = ({ remainingTime }) => {
     if (remainingTime === 0){ 
-      return <Text style={[common.defaultTitle, styles.countdownText]}>Too late...</Text>
+      return <Text style={styles.countdownText}>Too late...</Text>
     }
 
-    return <Text style={[common.defaultTitle, styles.countdownText]}>{remainingTime}</Text>
+    return <Text style={styles.countdownText}>{remainingTime}</Text>
   }
 
   return (
@@ -106,7 +106,7 @@ const verify = () => {
       <View style={goback.container}>
         <TouchableOpacity style={goback.button} onPress={() => router.back()}>
           <Ionicons name="chevron-back" size={24} color={Colors.White} /> 
-          <Text style={[common.defaultText, goback.buttonText]}>Go Back</Text>
+          <Text style={goback.buttonText}>Go Back</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   countdownText: {
+    fontFamily: common.defaultTitle,
     fontSize: 24, 
     color: Colors.Primary
   }
@@ -163,6 +164,7 @@ const goback = StyleSheet.create({
     justifyContent: 'center'
   },
   buttonText: {
+    fontFamily: common.defaultText,
     color: Colors.White,
     fontSize: 18,
     marginLeft: 10

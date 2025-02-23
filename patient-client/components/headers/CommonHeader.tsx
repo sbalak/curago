@@ -14,7 +14,7 @@ const CommonHeader = (props: any) => {
       <TouchableOpacity onPress={() => {router.back()}}>
         <Ionicons name='arrow-back' style={styles.navigate} color={Colors.Primary} />
       </TouchableOpacity>
-      <Text style={[common.defaultHeading, styles.title]}>{props.options.headerTitle}</Text>
+      <Text style={styles.title}>{props.options.headerTitle}</Text>
     </View>
   )
 }
@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
     fontSize: 30
   },
   title: {
+    fontFamily: common.defaultTitle,
     fontSize: 22,
     paddingLeft:20,
     paddingTop: 10

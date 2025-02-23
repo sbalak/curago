@@ -47,7 +47,7 @@ export default function index() {
         <View style={profile.container}>
           <Ionicons name="person-circle" size={80} color={Colors.Primary}/> 
           <View style={profile.info}>
-              <Text style={[common.defaultHeading, profile.title]}>
+              <Text style={profile.title}>
                 {
                   (!user.firstName || !user.lastName) ? (
                     user.phone
@@ -99,6 +99,7 @@ const profile = StyleSheet.create({
       marginLeft: 10
   },
   title: {
-      fontSize: 18
+    fontFamily: common.defaultTitle,
+    fontSize: 18
   }
 })

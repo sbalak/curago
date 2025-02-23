@@ -37,9 +37,10 @@
       [
         "expo-font", {
           "fonts": [
-            "./assets/fonts/OpenSans.ttf",
-            "./assets/fonts/PlayfairDisplay.ttf",
-            "./assets/fonts/SlineSans.ttf"
+            "./assets/fonts/NunitoSansBold.ttf",
+            "./assets/fonts/NunitoSansMedium.ttf",
+            "./assets/fonts/Outfit-Bold.ttf",
+            "./assets/fonts/Outfit-Medium.ttf"
           ]
         }
       ],
