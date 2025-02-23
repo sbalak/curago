@@ -252,7 +252,7 @@ export default function dashboard() {
           <FlatList data={doctors} 
             scrollEnabled={false} 
             renderItem={({item, index})=>(
-              <TouchableOpacity style={styles.doctorContainer} onPress={() => router.push('/doctor')}>
+              <TouchableOpacity style={styles.doctorContainer} onPress={() => router.push('/doctor/'+item.id)}>
                 <Image source={{uri:item.image}} style={styles.doctorImage} />
                 <View style={styles.doctorInfo}>
                     <Text style={{fontFamily: common.defaultText}}>Dr {item.firstName} {item.lastName}</Text>
