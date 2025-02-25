@@ -8,6 +8,8 @@ import {
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { router } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
+import ConsultNowButtonContainer from "@/components/ConsultNowButtonContainer";
 
 const doctors = [
   {
@@ -26,25 +28,20 @@ const doctors = [
   },
 ];
 
-const handleDoctorSelection = (doctor, slot) => {
-  router.push({
-    pathname: "/booking",
-    params: {
-      doctorName: doctor.name,
-      specialty: doctor.specialty,
-      price: doctor.price,
-      selectedSlot: slot,
-    },
-  });
-};
-
 const DoctorScreen = () => {
-  const route = useRoute();
-  const { selectedItem } = route.params;
+  // const route = useRoute();
+  // const { speciality } = route.params;
+  const { specialityId, specialityName } = useLocalSearchParams() || {}; // Get speciality param
+
+  const handleDoctorSelection = (doctor) => {
+    router.navigate({
+      pathname: "/doctor/" + doctor.id
+    });
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Available Doctors for {selectedItem}</Text>
+      <Text style={styles.title}>Available Doctors for {specialityName}</Text>
       <FlatList
         data={doctors}
         keyExtractor={(item) => item.id.toString()}
@@ -53,8 +50,8 @@ const DoctorScreen = () => {
             <Text style={styles.name}>{item.name}</Text>
             <Text style={styles.specialty}>{item.specialty}</Text>
             <Text style={styles.price}>{item.price}</Text>
-            <Text style={styles.slotsTitle}>Available Slots:</Text>
-            <View style={styles.slotsContainer}>
+            {/* <Text style={styles.slotsTitle}>Available Slots:</Text> */}
+            {/* <View style={styles.slotsContainer}>
               {item.slots.map((slot, index) => (
                 <TouchableOpacity
                   key={index}
@@ -64,6 +61,11 @@ const DoctorScreen = () => {
                   <Text style={styles.slotText}>{slot}</Text>
                 </TouchableOpacity>
               ))}
+            </View> */}
+            <View style={{ marginTop: 16 }}>
+              <ConsultNowButtonContainer
+                onPress={() => handleDoctorSelection(item)}
+              />
             </View>
           </View>
         )}

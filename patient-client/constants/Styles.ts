@@ -14,6 +14,11 @@ export const common = {
         fontFamily: 'outfit-medium',
         fontSize:18,
     },
+    subTitle: {
+        fontFamily: 'outfit-medium',
+        fontSize:12,
+        color: 'grey'
+    },
     
     //subTitle: {
     //    fontFamily: 'outfit-medium',
