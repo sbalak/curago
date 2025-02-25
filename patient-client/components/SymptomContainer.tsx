@@ -6,7 +6,10 @@ import {
   View,
   StyleSheet,
 } from "react-native";
+import { common } from "@/constants/Styles";
 import { Colors } from "@/constants/Colors";
+import ConsultNowButtonContainer from "@/components/ConsultNowButtonContainer";
+import { FontAwesome6, Ionicons } from "@expo/vector-icons";
 
 const SymptomContainer = ({ symptoms }) => {
   const [expanded, setExpanded] = useState(false);
@@ -27,43 +30,60 @@ const SymptomContainer = ({ symptoms }) => {
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={expanded ? symptoms : symptoms.slice(0, 6)}
-        numColumns={3}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.listContainer}
-        columnWrapperStyle={{ gap: 8, justifyContent: "space-between" }}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={[
-              styles.item,
-              selectedSymptoms.includes(item.id) && styles.selectedItem,
-            ]}
-            onPress={() => handleSymptomSelect(item.id)}
-          >
-            <Text
-              style={[
-                styles.itemText,
-                selectedSymptoms.includes(item.id) && styles.selectedItemText,
-              ]}
+      <View style={styles.titleContainer}>
+        <Ionicons name="medical" size={24} color="#FFB300" />
+        <Text style={common.title}>
+          Common Health Concerns
+          {/* See More Button (Aligned Right) */}
+          {symptoms.length > 6 && (
+            <TouchableOpacity
+              onPress={() => setExpanded(!expanded)}
+              style={styles.showMoreButton}
             >
-              {item.name}
-            </Text>
-          </TouchableOpacity>
-        )}
-      />
+              <Text style={styles.showMoreText}>
+                {expanded ? "Show Less" : "See More"}
+              </Text>
+            </TouchableOpacity>
+          )}
+        </Text>
+        {/* Subtitle (New Line) */}
+        <Text style={common.subTitle}>
+          Consult a doctor for any health concern
+        </Text>
+      </View>
 
-      {/* Show More Button */}
-      {symptoms.length > 6 && (
-        <TouchableOpacity
-          onPress={() => setExpanded(!expanded)}
-          style={styles.showMoreButton}
-        >
-          <Text style={styles.showMoreText}>
-            {expanded ? "Show Less" : "See More"}
-          </Text>
-        </TouchableOpacity>
-      )}
+      <View>
+        <FlatList
+          data={expanded ? symptoms : symptoms.slice(0, 6)}
+          numColumns={3}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.listContainer}
+          columnWrapperStyle={{ gap: 8, justifyContent: "space-between" }}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={[
+                styles.item,
+                selectedSymptoms.includes(item.id) && styles.selectedItem,
+              ]}
+              onPress={() => handleSymptomSelect(item.id)}
+            >
+              <Text
+                style={[
+                  styles.itemText,
+                  selectedSymptoms.includes(item.id) && styles.selectedItemText,
+                ]}
+              >
+                {item.name}
+              </Text>
+            </TouchableOpacity>
+          )}
+        />
+
+        {/* Consult Now Button */}
+        <View style={{ marginTop: 16 }}>
+          <ConsultNowButtonContainer />
+        </View>
+      </View>
     </View>
   );
 };
@@ -105,9 +125,11 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   showMoreButton: {
-    alignItems: "center",
-    marginTop: 8,
+    position: "absolute", // Position it independently
+    right: 0, // Align it to the extreme right
+    top: 8, // Align it at the top of the container
   },
+
   showMoreText: {
     fontSize: 14,
     fontWeight: "bold",

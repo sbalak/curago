@@ -62,126 +62,6 @@ export default function dashboard() {
     } catch (error) {}
   };
 
-  {
-    /*  const [selectedCategory, setSelectedCategory] = useState(null); // Track selected category (Symptoms or Specialty)
-  const [selectedSpecialty, setSelectedSpecialty] = useState(null); // Track selected specialty (only one)
-  const [selectedSymptoms, setSelectedSymptoms] = useState([]); // Track selected symptoms (multiple)
-
-  const handleCategorySelect = (category) => {
-    setSelectedCategory(category);
-    setSelectedSpecialty(null); // Reset selected specialty when category is changed
-    setSelectedSymptoms([]); // Reset symptoms when category is changed
-  };
-
-  const handleSpecialtySelect = (specialty) => {
-    setSelectedSpecialty(specialty); // Only one specialty can be selected
-  };
-
-  const handleSymptomSelect = (symptom) => {
-    setSelectedSymptoms((prevSelectedSymptoms) => {
-      // Toggle symptom selection
-      if (prevSelectedSymptoms.includes(symptom)) {
-        return prevSelectedSymptoms.filter(
-          (selectedSymptom) => selectedSymptom !== symptom
-        );
-      } else {
-        return [...prevSelectedSymptoms, symptom];
-      }
-    });
-  };
-
-  const handleNext = () => {
-    if (selectedSpecialty || selectedSymptoms.length > 0) {
-      router.push({
-        pathname: "/doctor",
-        params: {
-          selectedSpecialty: selectedSpecialty,
-          selectedSymptoms: selectedSymptoms,
-        },
-      });
-
-      // navigation.navigate("doctor", {
-      //   selectedSpecialty,
-      //   selectedSymptoms,
-      // });
-    }
-  };
-
-  const renderCategoryButtons = () => {
-    return (
-      <View style={styles.categoryContainer}>
-        <TouchableOpacity
-          style={[
-            styles.categoryButton,
-            selectedCategory === "Specialties" && styles.selectedCategoryButton,
-          ]}
-          onPress={() => handleCategorySelect("Specialties")}
-        >
-          <Text
-            style={[
-              styles.categoryButtonText,
-              selectedCategory === "Specialties" &&
-                styles.selectedCategoryButtonText,
-            ]}
-          >
-            Specialties
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.categoryButton,
-            selectedCategory === "Symptoms" && styles.selectedCategoryButton,
-          ]}
-          onPress={() => handleCategorySelect("Symptoms")}
-        >
-          <Text
-            style={[
-              styles.categoryButtonText,
-              selectedCategory === "Symptoms" &&
-                styles.selectedCategoryButtonText,
-            ]}
-          >
-            Symptoms
-          </Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
-}
-  const renderItems = () => {
-    const data = selectedCategory === "Specialties" ? specialties : symptoms;
-
-    return (
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={[
-              styles.item,
-              selectedSpecialty === item &&
-                selectedCategory === "Specialties" &&
-                styles.selectedItem,
-              selectedSymptoms.includes(item) &&
-                selectedCategory === "Symptoms" &&
-                styles.selectedItem,
-            ]}
-            onPress={() => {
-              if (selectedCategory === "Specialties") {
-                handleSpecialtySelect(item);
-              } else {
-                handleSymptomSelect(item);
-              }
-            }}
-          >
-            <Text style={styles.itemText}>{item}</Text>
-          </TouchableOpacity>
-        )}
-      />
-    );
-  };*/
-  }
-
   useFocusEffect(
     React.useCallback(() => {
       loadDoctors();
@@ -227,11 +107,6 @@ export default function dashboard() {
         </View>
 
         <View>
-          <View style={styles.titleContainer}>
-            <Ionicons name="medical" size={24} color="#FFB300" />
-            <Text style={common.title}>What's your Symptom?</Text>
-          </View>
-
           <SymptomContainer symptoms={symptoms} />
         </View>
 
@@ -241,40 +116,6 @@ export default function dashboard() {
             <Text style={common.title}>Choose Speciality</Text>
           </View>
           <SpecialityContainer specialities={specialities} />
-          {/* <FlatList
-            data={specialities}
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item, index }) => (
-              <TouchableOpacity
-                style={{
-                  borderRadius: 15,
-                  backgroundColor: Colors.White,
-                  padding: 10,
-                  width: 100,
-                  marginRight: 5,
-                }}
-              >
-                <View style={{ alignItems: "center" }}>
-                  <Image
-                    style={{ height: 50, width: 50 }}
-                    source={{ uri: item.image }}
-                  />
-                </View>
-                <Text
-                  style={{
-                    textAlign: "center",
-                    marginTop: 10,
-                    fontFamily: common.defaultText,
-                    fontSize: 12,
-                  }}
-                >
-                  {item.name}
-                </Text>
-              </TouchableOpacity>
-            )}
-            keyExtractor={(item, index) => String(index)}
-          /> */}
         </View>
 
         <View style={{ paddingTop: 10 }}>

@@ -8,6 +8,8 @@ import {
   StyleSheet,
 } from "react-native";
 import { Colors } from "@/constants/Colors";
+import { useLocalSearchParams } from "expo-router";
+import { router } from "expo-router"; // Import router
 
 interface Speciality {
   id: string;
@@ -27,9 +29,15 @@ const SpecialityContainer: React.FC<SpecialityContainerProps> = ({
     null
   );
 
-  const handleSpecialitySelect = (id: string) => {
-    const newSelection = id === selectedSpeciality ? null : id;
-    setSelectedSpeciality(newSelection);
+  const handleSpecialitySelect = (selectedSpeciality) => {
+    // const newSelection = id === selectedSpeciality ? null : id;
+    // setSelectedSpeciality(newSelection);
+    router.navigate({
+      pathname: "/doctor",
+      params: { specialityId: selectedSpeciality.id,
+        specialityName: selectedSpeciality.name
+      }, // Pass speciality as a param
+    });
   };
 
   return (
@@ -45,7 +53,7 @@ const SpecialityContainer: React.FC<SpecialityContainerProps> = ({
           return (
             <TouchableOpacity
               style={[styles.item, isSelected && styles.selectedItem]}
-              onPress={() => handleSpecialitySelect(item.id)}
+              onPress={() => handleSpecialitySelect(item)}
             >
               <View style={styles.imageContainer}>
                 <Image style={styles.image} source={{ uri: item.image }} />
