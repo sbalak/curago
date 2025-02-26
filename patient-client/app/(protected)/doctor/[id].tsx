@@ -19,6 +19,8 @@ import axios from "axios";
 import { common } from "@/constants/Styles";
 import { Colors } from "@/constants/Colors";
 import { FontAwesome6, Ionicons } from "@expo/vector-icons";
+import ConsultNowButtonContainer from "@/components/ConsultNowButtonContainer";
+import { handlePayment } from "@/utils/handlePayment";
 
 export default function DoctorDetails() {
   const { id } = useLocalSearchParams();
@@ -221,6 +223,20 @@ export default function DoctorDetails() {
           </View>
         </View>
       </ScrollView>
+      <View style={styles.buttonContainer}>
+            <ConsultNowButtonContainer buttonStyles={{
+                paddingVertical: 18, // Increased height
+                paddingHorizontal: 40, // Increased width
+                borderRadius: 12, // Rounded corners
+            }}
+            textStyles={{
+                fontSize: 16, // Bigger text
+                fontWeight: "bold",
+            }}
+            onPress={() => handlePayment()}>
+            Book Consultation
+            </ConsultNowButtonContainer>
+          </View>
     </SafeAreaView>
   );
 }
@@ -248,5 +264,19 @@ const styles = StyleSheet.create({
     marginTop: 7,
     marginLeft: 10,
     width: 240,
+  },
+  buttonContainer: {
+    position: "absolute",
+    bottom: 20, // Distance from the bottom
+    left: 20,
+    right: 20,
+    padding: 12,
+    alignItems: "center",
+    // borderRadius: 10,
+    // shadowColor: "#000",
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowOpacity: 0.2,
+    // shadowRadius: 4,
+    // elevation: 5,
   },
 });
