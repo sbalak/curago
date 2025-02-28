@@ -20,36 +20,11 @@ import { useAuth } from "@/hooks/useAuth";
 import { Colors } from "@/constants/Colors";
 import SymptomContainer from "@/components/SymptomContainer";
 import SpecialityContainer from "@/components/SpecialityContainer";
-{
-  /*
-const specialties = ["Cardiology", "Dermatology", "Neurology", "Pediatrics"];
-const symptoms = ["Headache", "Skin Rash", "Chest Pain", "Fever"];
-*/
-}
+
 export default function dashboard() {
   const { locationState } = useLocation();
-  const [specialities, setSpecialities] = useState([]);
-  const [symptoms, setSymptoms] = useState([]);
+
   const [doctors, setDoctors] = useState([]);
-
-  const loadSpecialities = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.EXPO_PUBLIC_API_URL}/reference/specialities`
-      );
-      console.log(response.data);
-      setSpecialities(response.data);
-    } catch (error) {}
-  };
-
-  const loadSymptoms = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.EXPO_PUBLIC_API_URL}/reference/symptoms`
-      );
-      setSymptoms(response.data);
-    } catch (error) {}
-  };
 
   const loadDoctors = async () => {
     try {
@@ -65,8 +40,6 @@ export default function dashboard() {
   useFocusEffect(
     React.useCallback(() => {
       loadDoctors();
-      loadSpecialities();
-      loadSymptoms();
     }, [locationState.latitude, locationState.longitude])
   );
 
@@ -107,15 +80,11 @@ export default function dashboard() {
         </View>
 
         <View>
-          <SymptomContainer symptoms={symptoms} />
+          <SymptomContainer />
         </View>
 
         <View style={{ paddingTop: 10 }}>
-          <View style={styles.titleContainer}>
-            <FontAwesome6 name="user-doctor" size={24} color={Colors.Primary} />
-            <Text style={common.title}>Choose Speciality</Text>
-          </View>
-          <SpecialityContainer specialities={specialities} />
+          <SpecialityContainer />
         </View>
 
         <View style={{ paddingTop: 10 }}>
@@ -272,99 +241,3 @@ const styles = StyleSheet.create({
     color: "#FFFFFF", // White text for better visibility
   },
 });
-
-/*
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 25,
-    backgroundColor: "#f7f8fa",
-  },
-  title: {
-    fontSize: 26,
-    fontWeight: "700",
-    color: "#333",
-    marginBottom: 15,
-    textAlign: "center",
-  },
-  subtitle: {
-    fontSize: 18,
-    color: "#555",
-    marginBottom: 20,
-    fontWeight: "500",
-    textAlign: "center",
-  },
-  categoryContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    marginVertical: 20,
-    width: "100%",
-  },
-  categoryButton: {
-    paddingVertical: 12,
-    paddingHorizontal: 35,
-    backgroundColor: "#fff",
-    borderRadius: 50,
-    borderWidth: 1,
-    borderColor: "#007BFF",
-    marginHorizontal: 15,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    alignItems: "center",
-    justifyContent: "center",
-    elevation: 5,
-  },
-  selectedCategoryButton: {
-    backgroundColor: "#007BFF",
-  },
-  categoryButtonText: {
-    fontSize: 16,
-    fontWeight: "500",
-    color: "#007BFF",
-  },
-  selectedCategoryButtonText: {
-    color: "#fff",
-  },
-  item: {
-    padding: 14,
-    backgroundColor: "#fff",
-    marginVertical: 8,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "#ddd",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.15,
-    shadowRadius: 3,
-    elevation: 3,
-  },
-  selectedItem: {
-    backgroundColor: "#007BFF",
-    borderColor: "#007BFF",
-  },
-  itemText: {
-    fontSize: 18,
-    fontWeight: "600",
-    textAlign: "center",
-    color: "#333",
-  },
-  nextButton: {
-    backgroundColor: "#007BFF",
-    paddingVertical: 15,
-    borderRadius: 8,
-    marginTop: 30,
-    marginBottom: 20,
-  },
-  disabledButton: {
-    backgroundColor: "#aaa",
-  },
-  nextButtonText: {
-    color: "white",
-    fontSize: 18,
-    textAlign: "center",
-    fontWeight: "700",
-  },
-});
-*/

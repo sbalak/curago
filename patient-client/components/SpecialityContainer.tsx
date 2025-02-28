@@ -9,7 +9,10 @@ import {
 } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { useLocalSearchParams } from "expo-router";
-import { router } from "expo-router"; // Import router
+import { router, useFocusEffect } from "expo-router"; // Import router
+import axios from "axios";
+import { FontAwesome6, Ionicons } from "@expo/vector-icons";
+import { common } from "@/constants/Styles";
 
 interface Speciality {
   id: string;
@@ -21,62 +24,80 @@ interface SpecialityContainerProps {
   specialities: Speciality[];
 }
 
-const SpecialityContainer: React.FC<SpecialityContainerProps> = ({
-  specialities,
-}) => {
+const SpecialityContainer: React.FC<SpecialityContainerProps> = () => {
   const [expanded, setExpanded] = useState(false);
+  const [specialities, setSpecialities] = useState([]);
   const [selectedSpeciality, setSelectedSpeciality] = useState<string | null>(
     null
   );
 
+  const loadSpecialities = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.EXPO_PUBLIC_API_URL}/reference/specialities`
+      );
+      console.log(response.data);
+      setSpecialities(response.data);
+    } catch (error) {}
+  };
+
+  useFocusEffect(() => {
+    loadSpecialities();
+  }, []);
+
   const handleSpecialitySelect = (selectedSpeciality) => {
-    // const newSelection = id === selectedSpeciality ? null : id;
-    // setSelectedSpeciality(newSelection);
     router.navigate({
       pathname: "/doctor",
-      params: { specialityId: selectedSpeciality.id,
-        specialityName: selectedSpeciality.name
-      }, // Pass speciality as a param
+      params: {
+        specialityId: selectedSpeciality.id,
+        specialityName: selectedSpeciality.name,
+      },
     });
   };
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={expanded ? specialities : specialities.slice(0, 6)}
-        numColumns={3}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.listContainer}
-        columnWrapperStyle={{ gap: 8, justifyContent: "space-between" }}
-        renderItem={({ item }) => {
-          const isSelected = selectedSpeciality === item.id;
-          return (
-            <TouchableOpacity
-              style={[styles.item, isSelected && styles.selectedItem]}
-              onPress={() => handleSpecialitySelect(item)}
-            >
-              <View style={styles.imageContainer}>
-                <Image style={styles.image} source={{ uri: item.image }} />
-              </View>
-              <Text style={[styles.text, isSelected && styles.selectedText]}>
-                {item.name}
-              </Text>
-            </TouchableOpacity>
-          );
-        }}
-      />
+      <View style={styles.titleContainer}>
+        <FontAwesome6 name="user-doctor" size={24} color={Colors.Primary} />
+        <Text style={common.title}>Choose Speciality</Text>
+      </View>
+      <View style={styles.specialityContainer}>
+        <FlatList
+          data={expanded ? specialities : specialities.slice(0, 6)}
+          numColumns={3}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.listContainer}
+          columnWrapperStyle={{ gap: 8, justifyContent: "space-between" }}
+          renderItem={({ item }) => {
+            const isSelected = selectedSpeciality === item.id;
+            return (
+              <TouchableOpacity
+                style={[styles.item, isSelected && styles.selectedItem]}
+                onPress={() => handleSpecialitySelect(item)}
+              >
+                <View style={styles.imageContainer}>
+                  <Image style={styles.image} source={{ uri: item.image }} />
+                </View>
+                <Text style={[styles.text, isSelected && styles.selectedText]}>
+                  {item.name}
+                </Text>
+              </TouchableOpacity>
+            );
+          }}
+        />
 
-      {/* Show More Button */}
-      {specialities.length > 6 && (
-        <TouchableOpacity
-          onPress={() => setExpanded(!expanded)}
-          style={styles.showMoreButton}
-        >
-          <Text style={styles.showMoreText}>
-            {expanded ? "Show Less" : "See More"}
-          </Text>
-        </TouchableOpacity>
-      )}
+        {/* Show More Button */}
+        {specialities.length > 6 && (
+          <TouchableOpacity
+            onPress={() => setExpanded(!expanded)}
+            style={styles.showMoreButton}
+          >
+            <Text style={styles.showMoreText}>
+              {expanded ? "Show Less" : "See More"}
+            </Text>
+          </TouchableOpacity>
+        )}
+      </View>
     </View>
   );
 };
@@ -128,6 +149,19 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
     color: "#007BFF",
+  },
+  titleContainer: {
+    marginVertical: 10,
+    display: "flex",
+    flexDirection: "row",
+    gap: 5,
+  },
+  specialityContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center", // Center align
+    gap: 4, // Adds uniform spacing
+    paddingHorizontal: 10, // Adds padding from the screen edge
   },
 });
 

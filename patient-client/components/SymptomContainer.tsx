@@ -10,10 +10,26 @@ import { common } from "@/constants/Styles";
 import { Colors } from "@/constants/Colors";
 import ConsultNowButtonContainer from "@/components/ConsultNowButtonContainer";
 import { FontAwesome6, Ionicons } from "@expo/vector-icons";
+import { router, useFocusEffect } from "expo-router"; // Import router
+import axios from "axios";
 
-const SymptomContainer = ({ symptoms }) => {
+const SymptomContainer = () => {
   const [expanded, setExpanded] = useState(false);
-  const [selectedSymptoms, setSelectedSymptoms] = useState([]); // Track selected symptoms (multiple)
+  const [symptoms, setSymptoms] = useState([]);
+  const [selectedSymptoms, setSelectedSymptoms] = useState([]);
+
+  const loadSymptoms = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.EXPO_PUBLIC_API_URL}/reference/symptoms`
+      );
+      setSymptoms(response.data);
+    } catch (error) {}
+  };
+
+  useFocusEffect(() => {
+    loadSymptoms();
+  }, []);
 
   const handleSymptomSelect = (symptom) => {
     setSelectedSymptoms((prevSelectedSymptoms) => {
@@ -52,7 +68,7 @@ const SymptomContainer = ({ symptoms }) => {
         </Text>
       </View>
 
-      <View>
+      <View style={styles.symptomContainer}>
         <FlatList
           data={expanded ? symptoms : symptoms.slice(0, 6)}
           numColumns={3}
@@ -134,6 +150,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
     color: "#007BFF",
+  },
+  symptomContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center", // Center align
+    gap: 8, // Adds uniform spacing
+    paddingHorizontal: 10, // Adds padding from the screen edge
   },
 });
 
