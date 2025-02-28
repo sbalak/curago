@@ -11,15 +11,15 @@ const TabRoot = () => {
           let iconName;
           if (route.name === "dashboard") iconName = "home";
           else if (route.name === "profile") iconName = "user";
-          else if (route.name === "settings") iconName = "cog";
-
+          else if (route.name === "settings") iconName = "user";
+          else if (route.name === "doctor") iconName = "stethoscope";
           return <FontAwesome5 name={iconName} size={22} color={color} />;
         },
         tabBarActiveTintColor: "#ff6347", // Tomato red for active tab
         tabBarInactiveTintColor: "#7a7a7a", // Gray for inactive tab
         tabBarStyle: {
           backgroundColor: "#fff",
-          height: 55,
+          height: 65,
           paddingTop: 5,
           paddingBottom: 10,
           borderTopColor: "lightgray",
@@ -36,14 +36,22 @@ const TabRoot = () => {
       <Tabs.Screen
         name="dashboard"
         options={{
-          title: "Dashboard",
+          title: "Home",
           headerShown: false,
+        }}
+      />
+      <Tabs.Screen
+        name="doctor"
+        options={{
+          title: "Doctors",
+          header: () => <MainHeader />,
+          href: "/doctor",
         }}
       />
       <Tabs.Screen
         name="settings"
         options={{
-          title: "Settings",
+          title: "Profile",
           header: () => <MainHeader />,
         }}
       />

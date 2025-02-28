@@ -35,7 +35,7 @@ const DoctorScreen = () => {
 
   const handleDoctorSelection = (doctor) => {
     router.navigate({
-      pathname: "/doctor/" + doctor.id
+      pathname: "/doctor/" + doctor.id,
     });
   };
 
@@ -50,18 +50,6 @@ const DoctorScreen = () => {
             <Text style={styles.name}>{item.name}</Text>
             <Text style={styles.specialty}>{item.specialty}</Text>
             <Text style={styles.price}>{item.price}</Text>
-            {/* <Text style={styles.slotsTitle}>Available Slots:</Text> */}
-            {/* <View style={styles.slotsContainer}>
-              {item.slots.map((slot, index) => (
-                <TouchableOpacity
-                  key={index}
-                  style={styles.slot}
-                  onPress={() => handleDoctorSelection(item, slot)}
-                >
-                  <Text style={styles.slotText}>{slot}</Text>
-                </TouchableOpacity>
-              ))}
-            </View> */}
             <View style={{ marginTop: 16 }}>
               <ConsultNowButtonContainer
                 onPress={() => handleDoctorSelection(item)}
