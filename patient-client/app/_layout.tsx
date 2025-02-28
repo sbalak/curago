@@ -1,19 +1,19 @@
 import AuthProvider, { useAuth } from "@/hooks/useAuth";
-import { router, Slot } from "expo-router";
+import { Redirect, router, Slot } from "expo-router";
 import { useEffect } from "react";
-import { useFonts } from 'expo-font';
+import { useFonts } from "expo-font";
 import { View } from "react-native";
 import { Text } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function _layout() {
   let [fontsLoaded] = useFonts({
-    'nunito-medium': require('./../assets/fonts/NunitoSansMedium.ttf'),
-    'nunito-bold': require('./../assets/fonts/NunitoSansBold.ttf'),
-    'outfit-bold': require('./../assets/fonts/Outfit-Bold.ttf'),
-    'outfit-medium': require('./../assets/fonts/Outfit-Medium.ttf')
+    "nunito-medium": require("./../assets/fonts/NunitoSansMedium.ttf"),
+    "nunito-bold": require("./../assets/fonts/NunitoSansBold.ttf"),
+    "outfit-bold": require("./../assets/fonts/Outfit-Bold.ttf"),
+    "outfit-medium": require("./../assets/fonts/Outfit-Medium.ttf"),
   });
-  
+
   if (!fontsLoaded) {
     return null;
   }
@@ -32,19 +32,18 @@ const RootLayout = () => {
 
   useEffect(() => {
     if (authState.authenticated === null) {
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center", }}><Text>Loading Now...</Text></View>
-    }
-    else {
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text>Loading Now...</Text>
+      </View>;
+    } else {
       if (authState.authenticated) {
-        router.replace('/dashboard'); 
-      }
-      else {
-        router.replace('/login');
+        <Redirect href="/(tabs)" />;
+        // router.replace('/dashboard');
+      } else {
+        router.replace("/login");
       }
     }
   }, [authState.authenticated]);
 
-  return (
-    <Slot />
-  );
-}
+  return <Slot />;
+};
