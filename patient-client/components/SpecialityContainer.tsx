@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   FlatList,
   TouchableOpacity,
@@ -41,9 +41,11 @@ const SpecialityContainer: React.FC<SpecialityContainerProps> = () => {
     } catch (error) {}
   };
 
-  useFocusEffect(() => {
-    loadSpecialities();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      loadSpecialities();
+    }, [])
+  );
 
   const handleSpecialitySelect = (selectedSpeciality) => {
     router.navigate({

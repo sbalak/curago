@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   FlatList,
   TouchableOpacity,
@@ -27,9 +27,11 @@ const SymptomContainer = () => {
     } catch (error) {}
   };
 
-  useFocusEffect(() => {
-    loadSymptoms();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      loadSymptoms();
+    }, [])
+  );
 
   const handleSymptomSelect = (symptom) => {
     setSelectedSymptoms((prevSelectedSymptoms) => {

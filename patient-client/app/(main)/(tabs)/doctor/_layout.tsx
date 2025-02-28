@@ -6,14 +6,14 @@ export default function _layout() {
   return (
     <Stack>
       <Stack.Screen
-        name="index"
+        name="[id]"
         options={{
           headerShown: false,
           // header: (props) => <CommonHeader props={props} {...props} />,
         }}
       />
       <Stack.Screen
-        name="profile"
+        name="index"
         options={{
           headerShown: false,
           // header: (props) => <CommonHeader props={props} {...props} />,
