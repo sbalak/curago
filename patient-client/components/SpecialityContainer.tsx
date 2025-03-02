@@ -13,6 +13,8 @@ import { router, useFocusEffect } from "expo-router"; // Import router
 import axios from "axios";
 import { FontAwesome6, Ionicons } from "@expo/vector-icons";
 import { common } from "@/constants/Styles";
+import { fetchSpecialities } from "@/utils/details_accessor";
+import { useFilters } from "@/context/FiltersContext";
 
 interface Speciality {
   id: string;
@@ -31,14 +33,16 @@ const SpecialityContainer: React.FC<SpecialityContainerProps> = () => {
     null
   );
 
+  const {
+    setSelectedFilter,
+    setSelectedFilterName,
+    selectedFilterName,
+    setFilterType,
+  } = useFilters();
+
   const loadSpecialities = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.EXPO_PUBLIC_API_URL}/reference/specialities`
-      );
-      console.log(response.data);
-      setSpecialities(response.data);
-    } catch (error) {}
+    const fetchedSpecialities = await fetchSpecialities();
+    setSpecialities(fetchedSpecialities);
   };
 
   useFocusEffect(
@@ -48,6 +52,23 @@ const SpecialityContainer: React.FC<SpecialityContainerProps> = () => {
   );
 
   const handleSpecialitySelect = (selectedSpeciality) => {
+    console.log(selectedSpeciality.id);
+    console.log(selectedSpeciality.name);
+
+    console.log("hello", selectedFilterName);
+    setSelectedFilter(selectedSpeciality.id);
+    // setSelectedFilterName(selectedSpeciality.name);
+    setSelectedFilterName(selectedSpeciality.name, () => {
+      console.log("Updated selectedFilterName:", selectedFilterName);
+    });
+    setFilterType("speciality");
+
+    setTimeout(() => {
+      console.log("After state update:", selectedFilterName); // This should print the updated value
+    }, 100);
+
+    console.log("he", selectedFilterName);
+
     router.navigate({
       pathname: "/doctor",
       params: {
