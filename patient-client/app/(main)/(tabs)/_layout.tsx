@@ -2,6 +2,7 @@ import React from "react";
 import { Tabs } from "expo-router";
 import { FontAwesome5 } from "@expo/vector-icons";
 import MainHeader from "@/components/headers/MainHeader";
+import { FiltersProvider } from "@/context/FiltersContext";
 
 const TabRoot = () => {
   return (
