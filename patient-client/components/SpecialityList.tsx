@@ -86,25 +86,6 @@ const SpecialityList: React.FC<SpecialityListProps> = ({
 };
 
 const styles = StyleSheet.create({
-  //   item: {
-  //     borderRadius: 15,
-  //     backgroundColor: Colors.White,
-  //     padding: 10,
-  //     width: 100,
-  //     alignItems: "center",
-  //     marginVertical: 5,
-  //     borderWidth: 1,
-  //     borderColor: "#ccc",
-  //   },
-  //   imageContainer: { alignItems: "center" },
-  //   image: { height: 50, width: 50 },
-  //   text: {
-  //     textAlign: "center",
-  //     marginTop: 10,
-  //     fontSize: 12,
-  //     fontWeight: "500",
-  //     color: "#333",
-  //   },
   showMoreButton: { alignItems: "center", marginTop: 8 },
   showMoreText: { fontSize: 14, fontWeight: "bold", color: "#007BFF" },
   titleContainer: { marginVertical: 10, flexDirection: "row", gap: 5 },
