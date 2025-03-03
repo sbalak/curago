@@ -11,6 +11,7 @@ const RootLayout = () => {
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="booking" options={{ headerShown: false }} />
           <Stack.Screen name="specialities" options={{ headerShown: false }} />
+          <Stack.Screen name="symptoms" options={{ headerShown: false }} />
         </Stack>
       </FiltersProvider>
     </LocationProvider>

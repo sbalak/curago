@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FlatList,
   TouchableOpacity,
@@ -7,66 +7,65 @@ import {
   Image,
   StyleSheet,
 } from "react-native";
-import { FontAwesome6 } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
 import { common } from "@/constants/Styles";
-import { useFilters } from "@/context/FiltersContext";
-import { router } from "expo-router";
+import { IconProps } from "@expo/vector-icons/build/createIconSet";
+import { FontAwesome6, Ionicons } from "@expo/vector-icons";
 
-interface Speciality {
+interface Category {
   id: string;
   name: string;
-  image: string;
+  image?: string; // Optional, since symptoms may not have images
 }
 
-interface SpecialityListProps {
-  specialities: Speciality[];
+interface CategoryListProps {
+  type: "speciality" | "symptom";
+  categories: Category[];
+  icon: React.ComponentType<IconProps>; // Icon component passed as a prop
+  iconColor?: string; // Optional color for the icon
   showSeeMore?: boolean;
   onSeeMorePress?: () => void;
+  onSelect: (category: Category) => void;
 }
 
-const SpecialityList: React.FC<SpecialityListProps> = ({
-  specialities,
+const CategoryList: React.FC<CategoryListProps> = ({
+  type,
+  categories,
+  icon: IconComponent,
+  iconColor = Colors.Primary,
   showSeeMore = false,
   onSeeMorePress,
+  onSelect,
 }) => {
-  const { setSelectedFilter, setSelectedFilterName, setFilterType } =
-    useFilters();
-
-  const handleSpecialitySelect = (selectedSpeciality: Speciality) => {
-    setSelectedFilter(selectedSpeciality.id);
-    setSelectedFilterName(selectedSpeciality.name);
-    setFilterType("speciality");
-
-    router.navigate({
-      pathname: "/doctor",
-      params: {
-        specialityId: selectedSpeciality.id,
-        specialityName: selectedSpeciality.name,
-      },
-    });
-  };
-
   return (
     <View>
       <View style={styles.titleContainer}>
-        <FontAwesome6 name="user-doctor" size={24} color={Colors.Primary} />
-        <Text style={common.title}>Choose Speciality</Text>
+        <IconComponent
+          name={type === "speciality" ? "user-doctor" : "medical"}
+          size={24}
+          color={iconColor}
+        />
+        <Text style={common.title}>
+          {type === "speciality"
+            ? "Choose Speciality"
+            : "Common Health Concerns"}
+        </Text>
       </View>
 
       <FlatList
-        data={specialities}
+        data={categories}
         numColumns={3}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContainer}
         columnWrapperStyle={{ gap: 8, justifyContent: "space-between" }}
         renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.item}
-            onPress={() => handleSpecialitySelect(item)}
-          >
+          <TouchableOpacity style={styles.item} onPress={() => onSelect(item)}>
             <View style={styles.imageContainer}>
-              <Image style={styles.image} source={{ uri: item.image }} />
+              {item.image ? (
+                <Image style={styles.image} source={{ uri: item.image }} />
+              ) : (
+                <IconComponent name="image" size={50} color="#ccc" />
+              )}
             </View>
             <Text style={styles.text}>{item.name}</Text>
           </TouchableOpacity>
@@ -125,4 +124,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SpecialityList;
+export default CategoryList;

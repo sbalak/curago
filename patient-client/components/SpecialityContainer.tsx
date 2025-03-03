@@ -2,12 +2,17 @@ import React, { useCallback, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { useFocusEffect } from "expo-router";
 import { fetchSpecialities } from "@/utils/details_accessor";
-import SpecialityList from "@/components/SpecialityList";
+import CategoryList from "./CategoryList";
+import { FontAwesome6 } from "@expo/vector-icons";
+import { Colors } from "@/constants/Colors";
+import { useFilters } from "@/context/FiltersContext";
 import { router } from "expo-router";
 
 const SpecialityContainer: React.FC = () => {
   const [specialities, setSpecialities] = useState([]);
-  const [expanded, setExpanded] = useState(false);
+  const { setSelectedFilter, setSelectedFilterName, setFilterType } =
+    useFilters();
+  // const [expanded, setExpanded] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -21,10 +26,25 @@ const SpecialityContainer: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <SpecialityList
-        specialities={expanded ? specialities : specialities.slice(0, 6)}
+      <CategoryList
+        type="speciality"
+        categories={specialities.slice(0, 6)}
+        icon={FontAwesome6}
+        iconColor={Colors.Primary}
         showSeeMore={specialities.length > 6}
         onSeeMorePress={() => router.navigate("/specialities")}
+        onSelect={(selectedSpeciality) => {
+          setSelectedFilter(selectedSpeciality.id);
+          setSelectedFilterName(selectedSpeciality.name);
+          setFilterType("speciality");
+          router.navigate({
+            pathname: "/doctor",
+            params: {
+              specialityId: selectedSpeciality.id,
+              specialityName: selectedSpeciality.name,
+            },
+          });
+        }}
       />
     </View>
   );
