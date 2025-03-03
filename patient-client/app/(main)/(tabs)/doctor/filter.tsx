@@ -28,7 +28,7 @@ const FilterScreen = () => {
       ...fetchedSpecialities.map((item) => ({
         id: item.id,
         name: item.name,
-        type: "specialty",
+        type: "speciality",
       })), // Specializations
       ...symptoms.map((symptom) => ({
         id: `symptom-${symptom}`,
@@ -49,13 +49,6 @@ const FilterScreen = () => {
     const isSymptom = filterType === "symptom";
     router.replace({
       pathname: "/doctor",
-      params: {
-        [isSymptom ? "symptom" : "specialty"]: selectedFilter.replace(
-          "symptom-",
-          ""
-        ),
-        price: selectedPrice,
-      },
     });
   };
 
@@ -64,6 +57,9 @@ const FilterScreen = () => {
     setSelectedFilterName("");
     setFilterType("");
     setSelectedPrice("");
+    router.replace({
+      pathname: "/doctor",
+    });
   };
 
   return (
