@@ -5,14 +5,12 @@ import { FiltersProvider } from "../../../../context/FiltersContext";
 
 export default function _layout() {
   return (
-    <FiltersProvider>
-      <Stack
-        screenOptions={({ route }) => ({
-          headerTitle: route.params?.headerTitle,
-        })}
-      >
-        <Stack.Screen name="index" options={{ header: () => <MainHeader /> }} />
-      </Stack>
-    </FiltersProvider>
+    <Stack
+      screenOptions={({ route }) => ({
+        headerTitle: route.params?.headerTitle,
+      })}
+    >
+      <Stack.Screen name="index" options={{ header: () => <MainHeader /> }} />
+    </Stack>
   );
 }

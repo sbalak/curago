@@ -1,23 +1,34 @@
 import React, { createContext, useContext, useState } from "react";
 
-const FiltersContext = createContext(null);
+// Define the shape of the filter context
+interface FiltersContextType {
+  selectedFilter: string;
+  selectedFilterName: string;
+  filterType: string;
+  setSelectedFilter: (filter: string) => void;
+  setSelectedFilterName: (name: string) => void;
+  setFilterType: (type: string) => void;
+}
 
-export const FiltersProvider = ({ children }) => {
-  const [selectedFilter, setSelectedFilter] = useState(""); // track filter id
-  const [selectedPrice, setSelectedPrice] = useState("");
-  const [selectedFilterName, setSelectedFilterName] = useState("");
-  const [filterType, setFilterType] = useState(""); // New state to track if it's a symptom or specialty
+// Create the context with a default value of `null`
+const FiltersContext = createContext<FiltersContextType | null>(null);
+
+// FiltersProvider component that wraps the entire app
+export const FiltersProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [selectedFilter, setSelectedFilter] = useState<string>("");
+  const [selectedFilterName, setSelectedFilterName] = useState<string>("");
+  const [filterType, setFilterType] = useState<string>("");
 
   return (
     <FiltersContext.Provider
       value={{
         selectedFilter,
-        setSelectedFilter,
-        selectedPrice,
-        setSelectedPrice,
         selectedFilterName,
-        setSelectedFilterName,
         filterType,
+        setSelectedFilter,
+        setSelectedFilterName,
         setFilterType,
       }}
     >
@@ -26,4 +37,12 @@ export const FiltersProvider = ({ children }) => {
   );
 };
 
-export const useFilters = () => useContext(FiltersContext);
+// Custom hook to use the FiltersContext
+export const useFilters = () => {
+  const context = useContext(FiltersContext);
+  console.log(context);
+  if (!context) {
+    throw new Error("useFilters must be used within a FiltersProvider");
+  }
+  return context;
+};

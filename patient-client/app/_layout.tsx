@@ -5,6 +5,7 @@ import { useFonts } from "expo-font";
 import { View } from "react-native";
 import { Text } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { FiltersProvider } from "@/context/FiltersContext";
 
 export default function _layout() {
   let [fontsLoaded] = useFonts({
@@ -21,7 +22,7 @@ export default function _layout() {
   return (
     <SafeAreaProvider>
       <AuthProvider>
-        <RootLayout />
+          <RootLayout />
       </AuthProvider>
     </SafeAreaProvider>
   );

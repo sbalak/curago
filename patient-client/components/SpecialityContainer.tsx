@@ -36,8 +36,8 @@ const SpecialityContainer: React.FC<SpecialityContainerProps> = () => {
   const {
     setSelectedFilter,
     setSelectedFilterName,
-    selectedFilterName,
     setFilterType,
+    selectedFilterName,
   } = useFilters();
 
   const loadSpecialities = async () => {
@@ -52,22 +52,10 @@ const SpecialityContainer: React.FC<SpecialityContainerProps> = () => {
   );
 
   const handleSpecialitySelect = (selectedSpeciality) => {
-    console.log(selectedSpeciality.id);
-    console.log(selectedSpeciality.name);
-
-    console.log("hello", selectedFilterName);
     setSelectedFilter(selectedSpeciality.id);
     // setSelectedFilterName(selectedSpeciality.name);
-    setSelectedFilterName(selectedSpeciality.name, () => {
-      console.log("Updated selectedFilterName:", selectedFilterName);
-    });
+    setSelectedFilterName(selectedSpeciality.name);
     setFilterType("speciality");
-
-    setTimeout(() => {
-      console.log("After state update:", selectedFilterName); // This should print the updated value
-    }, 100);
-
-    console.log("he", selectedFilterName);
 
     router.navigate({
       pathname: "/doctor",

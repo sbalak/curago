@@ -6,7 +6,6 @@ import {
   StyleSheet,
   FlatList,
 } from "react-native";
-import { useLocalSearchParams } from "expo-router";
 import { router } from "expo-router";
 import ConsultNowButtonContainer from "@/components/ConsultNowButtonContainer";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -43,9 +42,6 @@ const DoctorScreen = () => {
   // const { specialty, symptom, price } = useLocalSearchParams() || {};
   const { selectedFilter, selectedFilterName, filterType } = useFilters();
 
-  console.log("l", selectedFilterName);
-  console.log("h", filterType);
-
   // Function to filter doctors based on selected filters
   const filteredDoctors = doctors.filter((doctor) => {
     return (
@@ -73,9 +69,9 @@ const DoctorScreen = () => {
 
         {/* Selected Filters on the Right */}
         <View style={styles.selectedFilters}>
-          {filterType === "specialty" && (
+          {filterType === "speciality" && (
             <Text style={styles.filterTag}>
-              Specialty: {selectedFilterName}
+              Speciality: {selectedFilterName}
             </Text>
           )}
           {filterType === "symptom" && (
