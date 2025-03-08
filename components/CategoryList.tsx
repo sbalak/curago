@@ -41,7 +41,7 @@ const CategoryList: React.FC<CategoryListProps> = ({
     <View>
       <View style={styles.titleContainer}>
         <IconComponent
-          name={type === "speciality" ? "user-doctor" : "medical"}
+          name={type === "speciality" ? "user-doctor" : "asterisk"}
           size={24}
           color={iconColor}
         />
@@ -55,6 +55,7 @@ const CategoryList: React.FC<CategoryListProps> = ({
       <FlatList
         data={categories}
         numColumns={3}
+        scrollEnabled={false} 
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContainer}
         columnWrapperStyle={{ gap: 8, justifyContent: "space-between" }}
