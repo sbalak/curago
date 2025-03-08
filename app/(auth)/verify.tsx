@@ -48,7 +48,7 @@ const verify = () => {
   return (
     <View style={[styles.container, {paddingTop: top}]}>
       <View style={brand.container}>
-            <Image style={{height:50,width:150}} source={require('@/assets/images/logo.jpeg')} />
+            <Image style={{height:140,width:200}} source={require('@/assets/images/logo.png')} />
       </View>
       <Text style={[common.text, styles.text]}>We have sent a verification code to +91 {username}</Text>
       { verificationFailed ?  

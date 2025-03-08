@@ -34,7 +34,7 @@ export const Login = () => {
   return (
     <View style={[styles.container, {paddingTop: top}]}>
       <View style={brand.container}>
-      <Image style={{height:100,width:300}} source={require('@/assets/images/logo.jpeg')} />
+      <Image style={{height:180, width: 250}} source={require('@/assets/images/logo.png')} />
       </View>
       <View style={signin.container}>
         <Text style={signin.title}>Your go to portal for all your health care needs</Text>
