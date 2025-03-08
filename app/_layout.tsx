@@ -38,8 +38,7 @@ const RootLayout = () => {
       </View>;
     } else {
       if (authState.authenticated) {
-        <Redirect href="/(tabs)" />;
-        // router.replace('/dashboard');
+        router.replace('/dashboard');
       } else {
         router.replace("/login");
       }
