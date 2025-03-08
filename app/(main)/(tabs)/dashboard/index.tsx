@@ -111,7 +111,7 @@ export default function dashboard() {
               />
             </TouchableOpacity>
           </View>
-          <DoctorContainer />
+          <DoctorContainer doctors={doctors} />
         </View>
       </ScrollView>
     </SafeAreaView>
