@@ -70,8 +70,6 @@ const FilterScreen = () => {
       <Picker
         selectedValue={selectedFilter}
         onValueChange={(value) => {
-          console.log(specializations);
-          console.log(value);
           const selectedOption = specializations.find(
             (item) => String(item.id) === String(value)
           );

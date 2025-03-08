@@ -40,7 +40,6 @@ export const FiltersProvider: React.FC<{ children: React.ReactNode }> = ({
 // Custom hook to use the FiltersContext
 export const useFilters = () => {
   const context = useContext(FiltersContext);
-  console.log(context);
   if (!context) {
     throw new Error("useFilters must be used within a FiltersProvider");
   }

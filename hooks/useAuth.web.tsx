@@ -44,10 +44,6 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
       const refreshToken = localStorage.getItem("refreshToken");
       const userId = localStorage.getItem("userId");
 
-      console.log("useEffect -> current accessToken: ", accessToken);
-      console.log("useEffect -> current refreshToken: ", refreshToken);
-      console.log("useEffect -> current userId: ", userId);
-
       if (accessToken) {
         axios.defaults.headers.common[
           "Authorization"
@@ -58,30 +54,24 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
           userId: userId,
           authenticated: true,
         });
-
-        console.log("Authenticated with a valid accessToken");
       } else {
         setAuthState({
           token: null,
           userId: null,
           authenticated: false,
         });
-
-        console.log("Not authenticated, invalidated accessToken");
       }
     };
 
     axios.interceptors.request.use(
       (request) => {
         const accessToken = localStorage.getItem("accessToken");
-        console.log("Request interceptor using current accessToken");
         if (accessToken) {
           request.headers["Authorization"] = `Bearer ${accessToken}`;
         }
         return request;
       },
       (error) => {
-        console.log("Request interceptor error, rejecting call");
         return Promise.reject(error);
       }
     );
@@ -92,7 +82,6 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
         const originalRequest = error.config;
 
         if (error.response?.status === 401 && !originalRequest._retry) {
-          console.log("Refreshing token...");
           const accessToken = localStorage.getItem("accessToken");
           const refreshToken = localStorage.getItem("refreshToken");
 
@@ -111,9 +100,6 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
 
             localStorage.setItem("accessToken", response.data.accessToken);
             localStorage.setItem("refreshToken", response.data.refreshToken);
-
-            console.log("New access token: ", response.data.accessToken);
-            console.log("New refresh token: ", response.data.refreshToken);
 
             originalRequest._retry = true;
             return axios(originalRequest);
@@ -137,15 +123,12 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
       );
       const data = response.data;
 
-      console.log("Login response: ", data);
-
       if (data.status === 401) {
         return data;
       }
 
       return data;
     } catch (error) {
-      console.log("Login error: ", (error as any).response?.data);
       return { error: true, message: (error as any).response?.data };
     }
   };
@@ -156,8 +139,6 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
         `${process.env.EXPO_PUBLIC_API_URL}/auth/verify?username=${username}&code=${code}`
       );
       const data = response.data;
-
-      console.log("Verify response: ", data);
 
       if (data.status === 401) {
         return data;
@@ -181,7 +162,6 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
 
       return data;
     } catch (error) {
-      console.log("Verify error: ", (error as any).response?.data);
       return { error: true, message: (error as any).response?.data };
     }
   };
@@ -198,10 +178,8 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
         authenticated: false,
       });
 
-      console.log("Logout successful");
       router.replace("/login");
     } catch (error) {
-      console.log("Logout error: ", (error as any).response?.data);
       return { error: true, message: (error as any).response?.data };
     }
   };

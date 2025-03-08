@@ -5,8 +5,6 @@ export default function _layout() {
   return (
     <Stack
       screenOptions={({ route }) => {
-        console.log("Header Title:", route.params?.headerTitle);
-
         return {
           headerShown: false,
           headerTitle: route.params?.headerTitle ?? "Default Title",

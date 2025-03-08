@@ -45,18 +45,6 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
       const refreshToken = await SecureStore.getItemAsync("refreshToken");
       const userId = await SecureStore.getItemAsync("userId");
 
-      console.log(
-        "hooks/useAuth.tsx/useEffect(): line-31 -> current accessToken: " +
-          accessToken
-      );
-      console.log(
-        "hooks/useAuth.tsx/useEffect(): line-32 -> current refreshToken: " +
-          refreshToken
-      );
-      console.log(
-        "hooks/useAuth.tsx/useEffect(): line-33 -> current userId: " + userId
-      );
-
       if (accessToken) {
         axios.defaults.headers.common[
           "Authorization"
@@ -67,29 +55,18 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
           userId: userId,
           authenticated: true,
         });
-
-        console.log(
-          "hooks/useAuth.tsx/useEffect(): line-44 -> Authenticated with a valid accessToken"
-        );
       } else {
         setAuthState({
           token: null,
           userId: null,
           authenticated: false,
         });
-
-        console.log(
-          "hooks/useAuth.tsx/useEffect(): line-53 -> Not authenticated and invalidated accessToken"
-        );
       }
     };
 
     axios.interceptors.request.use(
       async (request) => {
         const accessToken = await SecureStore.getItemAsync("accessToken");
-        console.log(
-          "hooks/useAuth.tsx/useEffect(): line-59 -> Request interceptor using the current accessToken"
-        );
         if (accessToken) {
           axios.defaults.headers.common[
             "Authorization"
@@ -98,9 +75,6 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
         return request;
       },
       (error) => {
-        console.log(
-          "hooks/useAuth.tsx/useEffect(): line-65 -> Request interceptor error and call is rejected"
-        );
         return Promise.reject(error);
       }
     );
@@ -114,10 +88,6 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
         if (error.response.status === 401 && !originalRequest._retry) {
           const accessToken = await SecureStore.getItemAsync("accessToken");
           const refreshToken = await SecureStore.getItemAsync("refreshToken");
-
-          console.log(
-            "hooks/useAuth.tsx/useEffect(): line-79 -> Response interceptor using the current tokens to request a new token"
-          );
 
           const response = await axios.post(
             `${process.env.EXPO_PUBLIC_API_URL}/auth/refresh`,
@@ -134,24 +104,12 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
           await SecureStore.setItem("accessToken", response.data.accessToken);
           await SecureStore.setItem("refreshToken", response.data.refreshToken);
 
-          console.log(
-            "hooks/useAuth.tsx/useEffect(): line-89 -> New access token: " +
-              response.data.accessToken
-          );
-          console.log(
-            "hooks/useAuth.tsx/useEffect(): line-90 -> New refresh token: " +
-              response.data.refreshToken
-          );
-
           originalRequest._retry = true; // Mark the request as retried to avoid infinite loops.
 
           const retryRequest = await axios(originalRequest);
 
           return retryRequest; // Retry the original request with the new access token.
         }
-        console.log(
-          "hooks/useAuth.tsx/useEffect(): line-98 -> if condition skipped in response interceptor and rejecting with an error"
-        );
         return Promise.reject(error);
       }
     );
@@ -166,21 +124,12 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
       );
       const data = await response.data;
 
-      console.log(
-        "hooks/useAuth.tsx/login(): line-111 -> Login response: " +
-          JSON.stringify(data)
-      );
-
       if (data.status === 401) {
         return data;
       }
 
       return data;
     } catch (error) {
-      console.log(
-        "hooks/useAuth.tsx/login(): line-119 -> Login error: " +
-          JSON.stringify((error as any).response.data)
-      );
       return { error: true, message: (error as any).response.data };
     }
   };
@@ -191,11 +140,6 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
         `${process.env.EXPO_PUBLIC_API_URL}/auth/verify?username=${username}&code=${code}`
       );
       const data = await response.data;
-
-      console.log(
-        "hooks/useAuth.tsx/verify(): line-129 -> Verify response: " +
-          JSON.stringify(data)
-      );
 
       if (data.status === 401) {
         return data;
@@ -219,10 +163,6 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
 
       return data;
     } catch (error) {
-      console.log(
-        "hooks/useAuth.tsx/verify(): line-151 -> Verify error: " +
-          JSON.stringify((error as any).response.data)
-      );
       return { error: true, message: (error as any).response.data };
     }
   };
@@ -239,14 +179,8 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
         authenticated: false,
       });
 
-      console.log("hooks/useAuth.tsx/logout(): line-168 -> Logout successful");
-
       router.replace("/login");
     } catch (error) {
-      console.log(
-        "hooks/useAuth.tsx/logout(): line-172 -> Logout error: " +
-          JSON.stringify((error as any).response.data)
-      );
       return { error: true, message: (error as any).response.data };
     }
   };

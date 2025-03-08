@@ -1,7 +1,6 @@
 import RazorpayCheckout from "react-native-razorpay";
 
 export const handlePayment = () => {
-  console.log("hello");
   const options = {
     description: "Credits towards consultation",
     image: "https://i.imgur.com/3g7nmJC.jpg",
@@ -23,7 +22,6 @@ export const handlePayment = () => {
       alert(`Success: ${data.razorpay_payment_id}`);
     })
     .catch((error) => {
-      console.log(error)
       alert(`Error: ${error.code} | ${error.description}`);
     });
 };
